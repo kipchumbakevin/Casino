@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Casino</string>
+    <string name="SHARED_PREFERENCES">com.donate.donate.utils.sharedpref</string>
+    <string name="CLIENTS_PHONE">com.donate.donate.utils.sharedpref.phone</string>
+    //
+    <string name="CLIENTS_NAME">com.fundraiser.fundraiser.utils.sharedpref.name</string>
+    <string-array name="numbers">
+        <item>32 Red</item>
+        <item>15 Black</item>
+        <item>19 Red</item>
+        <item>4 Black</item>
+        <item>21 Red</item>
+        <item>2 Black</item>
+        <item>25 Red</item>
+        <item>17 Black</item>
+        <item>34 Red</item>
+        <item>6 Black</item>
+        <item>27 Red</item>
+        <item>13 Black</item>
+        <item>36 Red</item>
+        <item>11 Black</item>
+        <item>30 Red</item>
+        <item>8 Black</item>
+        <item>23 Red</item>
+        <item>10 Black</item>
+        <item>5 Red</item>
+        <item>24 Black</item>
+        <item>16 Red</item>
+        <item>33 Black</item>
+        <item>1 Red</item>
+        <item>20 Black</item>
+        <item>14 Red</item>
+        <item>31 Black</item>
+        <item>9 Red</item>
+        <item>22 Black</item>
+        <item>18 Red</item>
+        <item>29 Black</item>
+        <item>7 Red</item>
+        <item>28 Black</item>
+        <item>12 Red</item>
+        <item>35 Black</item>
+        <item>3 Red</item>
+        <item>26 Black</item>
+    </string-array>
+</resources>
