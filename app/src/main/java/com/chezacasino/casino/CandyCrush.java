@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -13,16 +14,25 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chezacasino.casino.models.MessageModel;
+import com.chezacasino.casino.networking.RetrofitClient;
+import com.chezacasino.casino.utils.SharedPreferencesConfig;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CandyCrush extends AppCompatActivity {
     int candyToBeDragged,candyToBeReplaced;
@@ -40,6 +50,7 @@ public class CandyCrush extends AppCompatActivity {
             R.drawable.bluecandy
     };
     MediaPlayer mediaPlayerSwipe;
+    SharedPreferencesConfig sharedPreferencesConfig;
     MediaPlayer mediaPlayerCrush;
     int score = 0;
     int widthOfBlock,noOfBlocks = 8, widthOfScreen;
@@ -54,6 +65,7 @@ public class CandyCrush extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         startScore = 0;
         widthOfScreen = displayMetrics.widthPixels;
+        sharedPreferencesConfig = new SharedPreferencesConfig(this);
         timer = findViewById(R.id.timer);
         mediaPlayerSwipe = MediaPlayer.create(this,R.raw.swipe);
         mediaPlayerCrush = MediaPlayer.create(this,R.raw.crush);
@@ -278,13 +290,44 @@ public class CandyCrush extends AppCompatActivity {
                 .setMessage(failed)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    public void onClick(final DialogInterface dialogInterface, int i) {
                     }
                 });
-        AlertDialog alertDialog = alert.create();
+        final AlertDialog alertDialog = alert.create();
         alertDialog.show();
         alertDialog.setCancelable(false);
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Toast toast = new Toast(CandyCrush.this);
+                toast.makeText(CandyCrush.this, "Loading...", Toast.LENGTH_LONG).show();
+                String phone = sharedPreferencesConfig.readClientsPhone();
+                Call<MessageModel> call = RetrofitClient.getInstance(CandyCrush.this)
+                        .getApiConnector()
+                        .createB(phone);
+                call.enqueue(new Callback<MessageModel>() {
+                    @Override
+                    public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                        if (response.isSuccessful()) {
+                            toast.cancel();
+                            Toast.makeText(CandyCrush.this, "You have received your bonus", Toast.LENGTH_LONG).show();
+                            alertDialog.dismiss();
+                        } else {
+                            toast.cancel();
+                            Toast.makeText(CandyCrush.this, "Server error", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageModel> call, Throwable t) {
+                        toast.cancel();
+                        Toast.makeText(CandyCrush.this, "Network error. You need to be connected to get your bonus", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
     }
     private void candyInterchange(){
         int background = (int) candy.get(candyToBeReplaced).getTag();

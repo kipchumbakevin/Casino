@@ -39,14 +39,14 @@ public class Casino extends AppCompatActivity {
     int degree = 0,degree_old = 0;
     Random r;
     Button start,button_deposit;
+    BottomSheetBehavior enterPSheet;
+    CountryCodePicker ccp;
     EditText deposit_amount,enter_phone_no;
     LinearLayoutCompat linear_deposit,enterPhoneBottom;
     TextView textView,chances,submit;
     ImageView selected,imageRoul,reload;
     Spinner spinner;
-    BottomSheetBehavior enterPSheet;
     ProgressBar pr;
-    CountryCodePicker ccp;
     SharedPreferencesConfig sharedPreferencesConfig;
     private static final float FACTOR = 4.86f;
     MediaPlayer mediaPlayerSwipe,mediaPlayerCrush;

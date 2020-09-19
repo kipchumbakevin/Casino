@@ -96,4 +96,5 @@
         android:layout_marginBottom="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+    <include layout="@layout/enter_phone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

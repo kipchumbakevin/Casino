@@ -16,6 +16,37 @@ public interface JsonPlaceHolderInterface {
             @Field("amount") String am
     );
     @FormUrlEncoded
+    @POST("api/getcasinoc")
+    Call<TrialsModel> pTrialsC(
+            @Field("phone") String phone
+    );
+    @FormUrlEncoded
+    @POST("api/reducetrialsc")
+    Call<MessageModel> reduceTC(
+            @Field("phone") String phone
+    );
+    @FormUrlEncoded
+    @POST("api/createbonus")
+    Call<MessageModel> createB(
+            @Field("phone") String phone
+    );
+    @FormUrlEncoded
+    @POST("api/getbonus")
+    Call<TrialsModel> getB(
+            @Field("phone") String phone
+    );
+    @FormUrlEncoded
+    @POST("api/insertcasinoc")
+    Call<MessageModel> casiNC(
+            @Field("phone") String phone,
+            @Field("amount") String amount
+    );
+    @FormUrlEncoded
+    @POST("api/reducebonus")
+    Call<MessageModel> reduceBonus(
+            @Field("phone") String phone
+    );
+    @FormUrlEncoded
     @POST("api/getcasino")
     Call<TrialsModel> pTrials(
             @Field("phone") String phone

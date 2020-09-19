@@ -35,7 +35,7 @@ public class Cards extends AppCompatActivity {
     ImageView left,middle,right,leftd,middled,rightd,leftf,middlef,rightf,first,second,third,correct
             ,notCorrect,reload;
     List<Integer> cards;
-    Button new_trial,deposit_button;
+    Button new_trial,deposit_button,bonus;
     int corr = 0;
     ProgressBar pr;
     EditText deposit_amount;
@@ -50,6 +50,7 @@ public class Cards extends AppCompatActivity {
         setContentView(R.layout.activity_cards);
         left = findViewById(R.id.left);
         middle = findViewById(R.id.middle);
+        bonus = findViewById(R.id.claimbonus);
         right = findViewById(R.id.right);
         leftd = findViewById(R.id.leftD);
         middled = findViewById(R.id.middleD);
@@ -74,6 +75,7 @@ public class Cards extends AppCompatActivity {
         correct = findViewById(R.id.correct);
         notCorrect = findViewById(R.id.not_correct);
         populatetrials();
+        getBonus();
         disable();
 //        if (eN == 0){
 //            disable();
@@ -109,7 +111,7 @@ public class Cards extends AppCompatActivity {
                         pr.setVisibility(View.VISIBLE);
                         Call<MessageModel> call = RetrofitClient.getInstance(Cards.this)
                                 .getApiConnector()
-                                .casiN(phone,am);
+                                .casiNC(phone,am);
                         call.enqueue(new Callback<MessageModel>() {
                             @Override
                             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
@@ -138,6 +140,17 @@ public class Cards extends AppCompatActivity {
                     } else {
                         Toast.makeText(Cards.this, "The minimum amount to deposit is Ksh.20", Toast.LENGTH_SHORT).show();
                     }
+                }
+            }
+        });
+        bonus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int chan = Integer.parseInt(chances.getText().toString());
+                if (chan == 0){
+                    reduceBonus();
+                }else {
+                    Toast.makeText(Cards.this,"You still have "+chan+" trials",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -2106,12 +2119,38 @@ public class Cards extends AppCompatActivity {
         rightd.setImageResource(R.drawable.back);
         rightf.setImageResource(R.drawable.back);
     }
+    private void reduceBonus() {
+        pr.setVisibility(View.VISIBLE);
+        String phone = sharedPreferencesConfig.readClientsPhone();
+        Call<MessageModel> call = RetrofitClient.getInstance(Cards.this)
+                .getApiConnector()
+                .reduceBonus(phone);
+        call.enqueue(new Callback<MessageModel>() {
+            @Override
+            public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                pr.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    populatetrials();
+                    getBonus();
+                    Toast.makeText(Cards.this, "You have redeemed your bonus", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(Cards.this, "Server error", Toast.LENGTH_LONG).show();
+                }
 
+            }
+
+            @Override
+            public void onFailure(Call<MessageModel> call, Throwable t) {
+                pr.setVisibility(View.GONE);
+                Toast.makeText(Cards.this, "Network error. Check your connection", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     private void reduceTrials() {
         String phone = sharedPreferencesConfig.readClientsPhone();
         Call<MessageModel> call = RetrofitClient.getInstance(Cards.this)
                 .getApiConnector()
-                .reduceT(phone);
+                .reduceTC(phone);
         call.enqueue(new Callback<MessageModel>() {
             @Override
             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
@@ -2130,7 +2169,38 @@ public class Cards extends AppCompatActivity {
             }
         });
     }
+    private void getBonus() {
+        pr.setVisibility(View.VISIBLE);
+        String phone = sharedPreferencesConfig.readClientsPhone();
+        Call<TrialsModel> call = RetrofitClient.getInstance(Cards.this)
+                .getApiConnector()
+                .getB(phone);
+        call.enqueue(new Callback<TrialsModel>() {
+            @Override
+            public void onResponse(Call<TrialsModel> call, Response<TrialsModel> response) {
+                pr.setVisibility(View.GONE);
+                if (response.isSuccessful()) {
+                    if (response.body() != null && response.body().getNum()>0){
+                        bonus.setVisibility(View.VISIBLE);
+                        bonus.setText("Claim your bonus "+"("+response.body().getNum()+")");
+                    }
+                    else{
+                        bonus.setVisibility(View.GONE);
+                    }
+                }
+                else {
+                    Toast.makeText(Cards.this,"Server error",Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<TrialsModel> call, Throwable t) {
+                pr.setVisibility(View.GONE);
+                Toast.makeText(Cards.this,"Network error"+t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
     private void populatetrials() {
         pr.setVisibility(View.VISIBLE);
         new_trial.setEnabled(false);
@@ -2138,7 +2208,7 @@ public class Cards extends AppCompatActivity {
         String phone = sharedPreferencesConfig.readClientsPhone();
         Call<TrialsModel> call = RetrofitClient.getInstance(Cards.this)
                 .getApiConnector()
-                .pTrials(phone);
+                .pTrialsC(phone);
         call.enqueue(new Callback<TrialsModel>() {
             @Override
             public void onResponse(Call<TrialsModel> call, Response<TrialsModel> response) {
@@ -2155,6 +2225,7 @@ public class Cards extends AppCompatActivity {
                     new_trial.setEnabled(true);
                 }
                 else {
+                    reload.setVisibility(View.VISIBLE);
                     Toast.makeText(Cards.this,"Server error",Toast.LENGTH_SHORT).show();
                 }
             }

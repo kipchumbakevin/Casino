@@ -70,6 +70,19 @@
             android:visibility="gone"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_autorenew"/>
+        <Button
+            android:id="@+id/claimbonus"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="claim your bonus 3"
+            android:textSize="10sp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btt"/>
     </RelativeLayout>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -228,6 +241,8 @@
         android:id="@+id/new_trial"
         android:layout_marginTop="20dp"
         android:text="new trial"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/btt"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         />
