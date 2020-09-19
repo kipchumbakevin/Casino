@@ -241,7 +241,6 @@ public class Cards extends AppCompatActivity {
                                 notCorrect.setVisibility(View.VISIBLE);
                             }
                         }
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                     } else if (cards.get(0) == 207) {
                         left.setImageResource(R.drawable.hearts);
                     } else if (cards.get(0) == 407) {
@@ -456,7 +455,6 @@ public class Cards extends AppCompatActivity {
                                 notCorrect.setVisibility(View.VISIBLE);
                             }
                         }
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                     } else if (cards.get(3) == 207) {
                         leftd.setImageResource(R.drawable.hearts);
                     } else if (cards.get(3) == 407) {
@@ -665,7 +663,6 @@ public class Cards extends AppCompatActivity {
                                 notCorrect.setVisibility(View.VISIBLE);
                             }
                         }
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                     } else if (cards.get(1) == 207) {
                         middle.setImageResource(R.drawable.hearts);
                     } else if (cards.get(1) == 407) {
@@ -872,7 +869,6 @@ public class Cards extends AppCompatActivity {
                                 notCorrect.setVisibility(View.VISIBLE);
                             }
                         }
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                     } else if (cards.get(4) == 207) {
                         middled.setImageResource(R.drawable.hearts);
                     } else if (cards.get(4) == 407) {
@@ -1083,7 +1079,6 @@ public class Cards extends AppCompatActivity {
                                 notCorrect.setVisibility(View.VISIBLE);
                             }
                         }
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                     } else if (cards.get(2) == 207) {
                         right.setImageResource(R.drawable.hearts);
                     } else if (cards.get(2) == 407) {
@@ -1271,7 +1266,6 @@ public class Cards extends AppCompatActivity {
                 //assign
                     if (cards.get(5) == 107) {
                         mediaPlayerCrush.start();
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                         rightd.setImageResource(R.drawable.spade);
                         if (corr == 0) {
                             first.setImageResource(R.drawable.spade);
@@ -1601,7 +1595,6 @@ public class Cards extends AppCompatActivity {
 
                     if (cards.get(6) == 107) {
                         mediaPlayerCrush.start();
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                         leftf.setImageResource(R.drawable.spade);
                         if (corr == 0) {
                             first.setImageResource(R.drawable.spade);
@@ -1832,7 +1825,6 @@ public class Cards extends AppCompatActivity {
                     }
                     if (cards.get(7) == 107) {
                         mediaPlayerCrush.start();
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                         middlef.setImageResource(R.drawable.spade);
                         if (corr == 0) {
                             first.setImageResource(R.drawable.spade);
@@ -2060,7 +2052,6 @@ public class Cards extends AppCompatActivity {
 
                     if (cards.get(8) == 107) {
                         mediaPlayerCrush.start();
-                        Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
                         rightf.setImageResource(R.drawable.spade);
                         if (corr == 0) {
                             first.setImageResource(R.drawable.spade);

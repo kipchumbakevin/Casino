@@ -292,6 +292,12 @@ public class CandyCrush extends AppCompatActivity {
                     @Override
                     public void onClick(final DialogInterface dialogInterface, int i) {
                     }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
                 });
         final AlertDialog alertDialog = alert.create();
         alertDialog.show();
@@ -322,7 +328,7 @@ public class CandyCrush extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<MessageModel> call, Throwable t) {
                         toast.cancel();
-                        Toast.makeText(CandyCrush.this, "Network error. You need to be connected to get your bonus", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CandyCrush.this, "Network error. You need to be connected to get your bonus", Toast.LENGTH_LONG).show();
                     }
                 });
 
