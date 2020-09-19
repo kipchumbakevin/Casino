@@ -40,7 +40,7 @@ public class Cards extends AppCompatActivity {
     ProgressBar pr;
     EditText deposit_amount;
     TextView chances;
-    int resf,resS,resT,eN;
+    int resf,resS,resT;
     LinearLayoutCompat payment;
     SharedPreferencesConfig sharedPreferencesConfig;
     MediaPlayer mediaPlayerSwipe,mediaPlayerCrush;
@@ -56,7 +56,7 @@ public class Cards extends AppCompatActivity {
         rightd = findViewById(R.id.rightD);
         mediaPlayerSwipe = MediaPlayer.create(this,R.raw.swipe);
         mediaPlayerCrush = MediaPlayer.create(this,R.raw.crush);
-        eN = 0;
+        //eN = 0;
         reload = findViewById(R.id.reload);
         leftf = findViewById(R.id.leftF);
         sharedPreferencesConfig = new SharedPreferencesConfig(this);
@@ -75,9 +75,9 @@ public class Cards extends AppCompatActivity {
         notCorrect = findViewById(R.id.not_correct);
         populatetrials();
         disable();
-        if (eN == 0){
-            disable();
-        }
+//        if (eN == 0){
+//            disable();
+//        }
         corr = 0;
         resf = 0;
         resS = 0;
@@ -141,7 +141,6 @@ public class Cards extends AppCompatActivity {
                 }
             }
         });
-        Collections.shuffle(cards);
         new_trial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,10 +156,9 @@ public class Cards extends AppCompatActivity {
 
                         public void onFinish() {
                             enable();
-                            eN = 1;
+                         //   eN = 1;
                         }
                     }.start();
-                    Collections.shuffle(cards);
                     left.setImageResource(R.drawable.back);
                     right.setImageResource(R.drawable.back);
                     middle.setImageResource(R.drawable.back);
@@ -176,7 +174,6 @@ public class Cards extends AppCompatActivity {
                     Animation anim_leftd = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.leftd);
                     Animation anim_middled = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.middled);
                     Animation anim_rightd = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rightd);
-                    Collections.shuffle(cards);
                     left.startAnimation(anim_left);
                     middle.startAnimation(anim_middle);
                     right.startAnimation(anim_right);
@@ -186,10 +183,13 @@ public class Cards extends AppCompatActivity {
                     leftf.startAnimation(anim_leftd);
                     middlef.startAnimation(anim_middled);
                     rightf.startAnimation(anim_rightd);
-                    Collections.shuffle(cards);
                     chances.setText(String.valueOf(ch-1));
                 }else {
                     payment.setVisibility(View.VISIBLE);
+                    resT=0;
+                    resS=0;
+                    resf=0;
+                    corr=0;
                     setback();
                 }
             }
@@ -204,7 +204,6 @@ public class Cards extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //assign card
-                if (eN == 1) {
                     if (cards.get(0) == 107) {
                         mediaPlayerCrush.start();
                         left.setImageResource(R.drawable.spade);
@@ -412,8 +411,7 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
 
             }
         });
@@ -421,7 +419,6 @@ public class Cards extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //assign card
-                if (eN == 1) {
                     if (cards.get(3) == 107) {
                         mediaPlayerCrush.start();
                         leftd.setImageResource(R.drawable.spade);
@@ -624,15 +621,13 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
         middle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //assign card
-                if (eN == 1) {
                     if (cards.get(1) == 107) {
                         mediaPlayerCrush.start();
                         middle.setImageResource(R.drawable.spade);
@@ -832,8 +827,7 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
 
@@ -841,7 +835,6 @@ public class Cards extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //assign card
-                if (eN == 1) {
                     if (cards.get(4) == 107) {
                         mediaPlayerCrush.start();
                         middled.setImageResource(R.drawable.spade);
@@ -1045,8 +1038,7 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
 
@@ -1054,7 +1046,6 @@ public class Cards extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //assign
-                if (eN == 1) {
                     if (cards.get(2) == 107) {
                         mediaPlayerCrush.start();
                         right.setImageResource(R.drawable.spade);
@@ -1258,15 +1249,13 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
         rightd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //assign
-                if (eN == 1) {
                     if (cards.get(5) == 107) {
                         mediaPlayerCrush.start();
                         Toast.makeText(Cards.this, "Correct", Toast.LENGTH_SHORT).show();
@@ -1465,14 +1454,12 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
         leftf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (eN == 1) {
                     if (cards.get(5) == 107) {
                         rightd.setImageResource(R.drawable.spade);
                     } else if (cards.get(5) == 207) {
@@ -1680,14 +1667,12 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
         middlef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (eN == 1) {
                     if (cards.get(5) == 107) {
                         rightd.setImageResource(R.drawable.spade);
                     } else if (cards.get(5) == 207) {
@@ -1894,14 +1879,12 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
         rightf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (eN == 1) {
                     if (cards.get(5) == 107) {
                         rightd.setImageResource(R.drawable.spade);
                     } else if (cards.get(5) == 207) {
@@ -2104,8 +2087,7 @@ public class Cards extends AppCompatActivity {
                     } else if (cards.get(8) == 1007) {
                         rightf.setImageResource(R.drawable.three);
                     }
-                }
-                eN = 0;
+                disable();
             }
         });
     }

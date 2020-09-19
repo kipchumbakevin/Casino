@@ -1,13 +1,19 @@
 package com.chezacasino.casino;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +29,8 @@ public class CandyCrush extends AppCompatActivity {
     int notCandy = R.drawable.transparent;
     Handler mHandler;
     int interval = 100;
-    int startScore;
+    int startScore,finalScore;
+    Dialog dialog;
     int[] candies = {
             R.drawable.redcandy,
             R.drawable.yellowcandy,
@@ -37,7 +44,7 @@ public class CandyCrush extends AppCompatActivity {
     int score = 0;
     int widthOfBlock,noOfBlocks = 8, widthOfScreen;
     ArrayList<ImageView> candy = new ArrayList<>();
-    TextView scoreR;
+    TextView scoreR,timer;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,7 @@ public class CandyCrush extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         startScore = 0;
         widthOfScreen = displayMetrics.widthPixels;
+        timer = findViewById(R.id.timer);
         mediaPlayerSwipe = MediaPlayer.create(this,R.raw.swipe);
         mediaPlayerCrush = MediaPlayer.create(this,R.raw.crush);
         int heightOfScreen = displayMetrics.heightPixels;
@@ -58,6 +66,21 @@ public class CandyCrush extends AppCompatActivity {
                 @Override
                 void onSwipeRight() {
                     super.onSwipeRight();
+                    if (!timer.isShown()){
+                        new CountDownTimer(30000, 1000) { // 60 seconds, in 1 second intervals
+                            public void onTick(long millisUntilFinished) {
+                                timer.setVisibility(View.VISIBLE);
+                                timer.setText("Get a score of 200 in "+String.valueOf(millisUntilFinished/1000)+" secs"+" to get 3 Cup game with cards trials for free");
+                            }
+
+                            public void onFinish() {
+                                alertD();
+                                timer.setVisibility(View.GONE);
+                                score=0;
+                                scoreR.setText("");
+                            }
+                        }.start();
+                    }
                     mediaPlayerSwipe.start();
                     startScore = 1;
                     candyToBeDragged = imageView.getId();
@@ -68,6 +91,21 @@ public class CandyCrush extends AppCompatActivity {
                 @Override
                 void onSwipeLeft() {
                     super.onSwipeLeft();
+                    if (!timer.isShown()){
+                        new CountDownTimer(30000, 1000) { // 60 seconds, in 1 second intervals
+                            public void onTick(long millisUntilFinished) {
+                                timer.setVisibility(View.VISIBLE);
+                                timer.setText("Get a score of 200 in "+String.valueOf(millisUntilFinished/1000)+" secs"+" to get 3 Cup game with cards trials for free");
+                            }
+
+                            public void onFinish() {
+                                alertD();
+                                timer.setVisibility(View.GONE);
+                                score=0;
+                                scoreR.setText("");
+                            }
+                        }.start();
+                    }
                     mediaPlayerSwipe.start();
                     startScore = 1;
                     candyToBeDragged = imageView.getId();
@@ -78,6 +116,21 @@ public class CandyCrush extends AppCompatActivity {
                 @Override
                 void onSwipeTop() {
                     super.onSwipeTop();
+                    if (!timer.isShown()){
+                        new CountDownTimer(30000, 1000) { // 60 seconds, in 1 second intervals
+                            public void onTick(long millisUntilFinished) {
+                                timer.setVisibility(View.VISIBLE);
+                                timer.setText("Get a score of 200 in "+String.valueOf(millisUntilFinished/1000)+" secs"+" to get 3 Cup game with cards trials for free");
+                            }
+
+                            public void onFinish() {
+                                alertD();
+                                timer.setVisibility(View.GONE);
+                                score=0;
+                                scoreR.setText("");
+                            }
+                        }.start();
+                    }
                     mediaPlayerSwipe.start();
                     startScore = 1;
                     candyToBeDragged = imageView.getId();
@@ -88,6 +141,21 @@ public class CandyCrush extends AppCompatActivity {
                 @Override
                 void onSwipeBottom() {
                     super.onSwipeBottom();
+                    if (!timer.isShown()){
+                        new CountDownTimer(30000, 1000) { // 60 seconds, in 1 second intervals
+                            public void onTick(long millisUntilFinished) {
+                                timer.setVisibility(View.VISIBLE);
+                                timer.setText("Get a score of 200 in "+String.valueOf(millisUntilFinished/1000)+" secs"+" to get 3 Cup game with cards trials for free");
+                            }
+
+                            public void onFinish() {
+                                alertD();
+                                timer.setVisibility(View.GONE);
+                                score=0;
+                                scoreR.setText("");
+                            }
+                        }.start();
+                    }
                     mediaPlayerSwipe.start();
                     startScore = 1;
                     candyToBeDragged = imageView.getId();
@@ -100,57 +168,61 @@ public class CandyCrush extends AppCompatActivity {
         startRepeat();
     }
     private void checkRowForThree(){
-        for (int i = 0;i<62;i++){
-            int choosedCandy = (int) candy.get(i).getTag();
-            boolean isBlank = (int) candy.get(i).getTag() == notCandy;
-            Integer[] notValid = {6,7,14,15,22,23,30,31,38,39,46,47,54,55};
-            List<Integer> list = Arrays.asList(notValid);
-            if (!list.contains(i)){
+        if (timer.isShown()) {
+            for (int i = 0; i < 62; i++) {
+                int choosedCandy = (int) candy.get(i).getTag();
+                boolean isBlank = (int) candy.get(i).getTag() == notCandy;
+                Integer[] notValid = {6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55};
+                List<Integer> list = Arrays.asList(notValid);
+                if (!list.contains(i)) {
+                    int x = i;
+                    if ((int) candy.get(x++).getTag() == choosedCandy && !isBlank && (int) candy.get(x++).getTag() == choosedCandy &&
+                            (int) candy.get(x).getTag() == choosedCandy) {
+                        mediaPlayerCrush.start();
+                        if (startScore == 1) {
+                            score = score + 6;
+                            scoreR.setText(String.valueOf(score));
+                        }
+                        candy.get(x).setImageResource(notCandy);
+                        candy.get(x).setTag(notCandy);
+                        x--;
+                        candy.get(x).setImageResource(notCandy);
+                        candy.get(x).setTag(notCandy);
+                        x--;
+                        candy.get(x).setImageResource(notCandy);
+                        candy.get(x).setTag(notCandy);
+                    }
+                }
+            }
+            moveDownCandies();
+        }
+    }
+    private void checkColumnForThree(){
+        if (timer.isShown()) {
+            for (int i = 0; i < 47; i++) {
+                int choosedCandy = (int) candy.get(i).getTag();
+                boolean isBlank = (int) candy.get(i).getTag() == notCandy;
                 int x = i;
-                if ((int)candy.get(x++).getTag() == choosedCandy && !isBlank && (int)candy.get(x++).getTag() == choosedCandy &&
-                        (int)candy.get(x).getTag() == choosedCandy){
+                if ((int) candy.get(x).getTag() == choosedCandy && !isBlank &&
+                        (int) candy.get(x + noOfBlocks).getTag() == choosedCandy &&
+                        (int) candy.get(x + 2 * noOfBlocks).getTag() == choosedCandy) {
                     mediaPlayerCrush.start();
-                    if (startScore == 1){
-                        score = score + 3;
+                    if (startScore == 1) {
+                        score = score + 6;
                         scoreR.setText(String.valueOf(score));
                     }
                     candy.get(x).setImageResource(notCandy);
                     candy.get(x).setTag(notCandy);
-                    x--;
+                    x = x + noOfBlocks;
                     candy.get(x).setImageResource(notCandy);
                     candy.get(x).setTag(notCandy);
-                    x--;
+                    x = x + noOfBlocks;
                     candy.get(x).setImageResource(notCandy);
                     candy.get(x).setTag(notCandy);
                 }
             }
+            moveDownCandies();
         }
-        moveDownCandies();
-    }
-    private void checkColumnForThree(){
-        for (int i = 0;i<47;i++){
-            int choosedCandy = (int) candy.get(i).getTag();
-            boolean isBlank = (int) candy.get(i).getTag() == notCandy;
-                int x = i;
-                if ((int)candy.get(x).getTag() == choosedCandy && !isBlank &&
-                        (int)candy.get(x+noOfBlocks).getTag() == choosedCandy &&
-                        (int)candy.get(x+2*noOfBlocks).getTag() == choosedCandy){
-                    mediaPlayerCrush.start();
-                    if (startScore == 1){
-                        score = score + 3;
-                        scoreR.setText(String.valueOf(score));
-                    }
-                    candy.get(x).setImageResource(notCandy);
-                    candy.get(x).setTag(notCandy);
-                    x =x+noOfBlocks;
-                    candy.get(x).setImageResource(notCandy);
-                    candy.get(x).setTag(notCandy);
-                    x =x+noOfBlocks;
-                    candy.get(x).setImageResource(notCandy);
-                    candy.get(x).setTag(notCandy);
-                }
-        }
-        moveDownCandies();
     }
     private void moveDownCandies(){
         Integer[] firstRow = {0,1,2,3,4,5,6,7};
@@ -190,6 +262,29 @@ public class CandyCrush extends AppCompatActivity {
     };
     void startRepeat(){
         repeatChecker.run();
+    }
+    private void alertD(){
+        String failed,title;
+        if (score>100){
+            title = "Hooray! You have earned your 3 trials.";
+            failed = "Congrats! You have reached the target, your score is "+score+"\nYou have been awarded 3 free trials to play Cup game with cards.";
+        }else {
+            title = "Ooops! Time is up.";
+            failed = "Start a new game\nYou have not reached the target. Your score is "+score;
+        }
+        AlertDialog.Builder alert = new AlertDialog.Builder(CandyCrush.this);
+
+        alert.setTitle(title)
+                .setMessage(failed)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog alertDialog = alert.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
     }
     private void candyInterchange(){
         int background = (int) candy.get(candyToBeReplaced).getTag();

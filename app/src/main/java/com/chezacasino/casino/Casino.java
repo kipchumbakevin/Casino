@@ -192,7 +192,6 @@ public class Casino extends AppCompatActivity {
                                 spinner.setEnabled(false);
 
                             }
-
                             @Override
                             public void onAnimationEnd(Animation animation) {
                                 if (spinner.getSelectedItem().toString().equals(textView.getText().toString())){
@@ -200,7 +199,10 @@ public class Casino extends AppCompatActivity {
                                 }
                                 textView.setText(currentNumber(360 - (degree % 360)));
                                 start.setVisibility(View.VISIBLE);
-                                spinner.setEnabled(true);
+                                int t = Integer.parseInt(chances.getText().toString());
+                                if (t > 0){
+                                    spinner.setEnabled(true);
+                                }
                             }
 
                             @Override
