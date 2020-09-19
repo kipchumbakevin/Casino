@@ -8,7 +8,12 @@
     android:background="@color/colorDont"
     android:layout_height="match_parent"
     tools:context=".Landing">
-
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
         android:id="@+id/ff"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,5 +101,7 @@
         android:layout_marginBottom="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-    <include layout="@layout/enter_phone"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include layout="@layout/enter_phone"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
