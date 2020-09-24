@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:orientation="vertical"
-        android:background="#00ddff"
+        android:background="@drawable/candyback"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:padding="20dp"
@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:text="Get a score of 200 and above to get your bonus"
             android:textColor="#fff"/>
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

@@ -1,9 +1,12 @@
 package com.chezacasino.casino;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -36,20 +39,21 @@ import retrofit2.Response;
 
 public class Casino extends AppCompatActivity {
 
-    int degree = 0,degree_old = 0;
+    int degree = 0, degree_old = 0;
     Random r;
-    Button start,button_deposit;
+    Button start, button_deposit;
     BottomSheetBehavior enterPSheet;
     CountryCodePicker ccp;
-    EditText deposit_amount,enter_phone_no;
-    LinearLayoutCompat linear_deposit,enterPhoneBottom;
-    TextView textView,chances,submit;
-    ImageView selected,imageRoul,reload;
+    EditText deposit_amount, enter_phone_no;
+    LinearLayoutCompat linear_deposit, enterPhoneBottom;
+    TextView textView, chances, submit;
+    ImageView selected, imageRoul, reload;
     Spinner spinner;
     ProgressBar pr;
     SharedPreferencesConfig sharedPreferencesConfig;
     private static final float FACTOR = 4.86f;
-    MediaPlayer mediaPlayerSwipe,mediaPlayerCrush;
+    MediaPlayer mediaPlayerSwipe, mediaPlayerCrush;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +62,13 @@ public class Casino extends AppCompatActivity {
         imageRoul = findViewById(R.id.roul);
         textView = findViewById(R.id.textview);
         chances = findViewById(R.id.chances);
-        mediaPlayerSwipe = MediaPlayer.create(this,R.raw.swipe);
-        mediaPlayerCrush = MediaPlayer.create(this,R.raw.crush);
+        mediaPlayerSwipe = MediaPlayer.create(this, R.raw.swipe);
+        mediaPlayerCrush = MediaPlayer.create(this, R.raw.crush);
         pr = findViewById(R.id.pr);
         submit = findViewById(R.id.submit);
         ccp = findViewById(R.id.ccp);
         enterPhoneBottom = findViewById(R.id.enterPhoneBottom);
-        enter_phone_no  =findViewById(R.id.enterPhone);
+        enter_phone_no = findViewById(R.id.enterPhone);
         reload = findViewById(R.id.reload);
         selected = findViewById(R.id.nav);
         enterPSheet = BottomSheetBehavior.from(enterPhoneBottom);
@@ -74,30 +78,31 @@ public class Casino extends AppCompatActivity {
         button_deposit = findViewById(R.id.deposit_button);
         spinner = findViewById(R.id.spinner);
 
-        if (sharedPreferencesConfig.readClientsPhone().isEmpty()){
+        if (sharedPreferencesConfig.readClientsPhone().isEmpty()) {
             enterPSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }else {
+        } else {
             populatetrials();
         }
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (enter_phone_no.getText().toString().isEmpty()){
-                    Toast.makeText(Casino.this,"Enter your phone number",Toast.LENGTH_SHORT).show();
-                }if (!ccp.isValidFullNumber()){
-                    Toast.makeText(Casino.this,"Enter a valid phone number",Toast.LENGTH_SHORT).show();
-                }else {
+                if (enter_phone_no.getText().toString().isEmpty()) {
+                    Toast.makeText(Casino.this, "Enter your phone number", Toast.LENGTH_SHORT).show();
+                }
+                if (!ccp.isValidFullNumber()) {
+                    Toast.makeText(Casino.this, "Enter a valid phone number", Toast.LENGTH_SHORT).show();
+                } else {
                     String phone = ccp.getFullNumberWithPlus();
                     sharedPreferencesConfig.saveAuthenticationInformation(phone);
                     populatetrials();
                     enterPSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    Toast.makeText(Casino.this,"Number saved, please proceed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Casino.this, "Number saved, please proceed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         ccp.registerCarrierNumberEditText(enter_phone_no);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.numbers,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.numbers, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -122,10 +127,9 @@ public class Casino extends AppCompatActivity {
         button_deposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (deposit_amount.getText().toString().isEmpty()){
-                    Toast.makeText(Casino.this,"The minimum amount to deposit is Ksh.20",Toast.LENGTH_SHORT).show();
-                }
-                else {
+                if (deposit_amount.getText().toString().isEmpty()) {
+                    Toast.makeText(Casino.this, "The minimum amount to deposit is Ksh.20", Toast.LENGTH_SHORT).show();
+                } else {
                     int ii = Integer.parseInt(deposit_amount.getText().toString());
                     String phone = sharedPreferencesConfig.readClientsPhone();
                     String am = deposit_amount.getText().toString();
@@ -133,7 +137,7 @@ public class Casino extends AppCompatActivity {
                         pr.setVisibility(View.VISIBLE);
                         Call<MessageModel> call = RetrofitClient.getInstance(Casino.this)
                                 .getApiConnector()
-                                .casiN(phone,am);
+                                .casiN(phone, am);
                         call.enqueue(new Callback<MessageModel>() {
                             @Override
                             public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
@@ -168,9 +172,9 @@ public class Casino extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sharedPreferencesConfig.readClientsPhone().isEmpty()){
+                if (sharedPreferencesConfig.readClientsPhone().isEmpty()) {
                     enterPSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }else {
+                } else {
                     final int num = Integer.parseInt(chances.getText().toString());
                     if (num > 0) {
                         mediaPlayerSwipe.start();
@@ -190,17 +194,18 @@ public class Casino extends AppCompatActivity {
                                 start.setVisibility(View.GONE);
                                 chances.setText(String.valueOf(num - 1));
                                 spinner.setEnabled(false);
-
                             }
+
                             @Override
                             public void onAnimationEnd(Animation animation) {
-                                if (spinner.getSelectedItem().toString().equals(textView.getText().toString())){
-                                    mediaPlayerCrush.start();
-                                }
                                 textView.setText(currentNumber(360 - (degree % 360)));
+                                if (spinner.getSelectedItem().toString().equals(textView.getText().toString())) {
+                                    redeemPay();
+                                }
+                                Toast.makeText(Casino.this, spinner.getSelectedItem().toString() + "  " + textView.getText().toString(), Toast.LENGTH_SHORT).show();
                                 start.setVisibility(View.VISIBLE);
                                 int t = Integer.parseInt(chances.getText().toString());
-                                if (t > 0){
+                                if (t > 0) {
                                     spinner.setEnabled(true);
                                 }
                             }
@@ -218,6 +223,27 @@ public class Casino extends AppCompatActivity {
                 }
             }
 
+        });
+    }
+
+    private void redeemPay() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(Casino.this);
+        alert.setTitle("You have a match!")
+                .setMessage("You have have won double the amount you deposited. Make sure you are connected to the internet to receive your money")
+                .setPositiveButton("Redeem", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        final AlertDialog alertDialog = alert.create();
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
         });
     }
 
@@ -258,18 +284,16 @@ public class Casino extends AppCompatActivity {
             public void onResponse(Call<TrialsModel> call, Response<TrialsModel> response) {
                 pr.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    if (response.body() != null && response.body().getNum()>=0){
-                        chances.setText(response.body().getNum()+"");
+                    if (response.body() != null && response.body().getNum() >= 0) {
+                        chances.setText(response.body().getNum() + "");
                         start.setEnabled(true);
                         linear_deposit.setVisibility(View.GONE);
-                    }
-                    else{
+                    } else {
                         chances.setText("-");
                         linear_deposit.setVisibility(View.VISIBLE);
                     }
-                }
-                else {
-                    Toast.makeText(Casino.this,"Server error",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Casino.this, "Server error", Toast.LENGTH_SHORT).show();
                     reload.setVisibility(View.VISIBLE);
                 }
             }
@@ -277,127 +301,135 @@ public class Casino extends AppCompatActivity {
             @Override
             public void onFailure(Call<TrialsModel> call, Throwable t) {
                 pr.setVisibility(View.GONE);
-                Toast.makeText(Casino.this,"Network error"+t.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(Casino.this, "Network error" + t.getMessage(), Toast.LENGTH_SHORT).show();
                 reload.setVisibility(View.VISIBLE);
             }
 
         });
     }
 
-    private String currentNumber(int degrees){
+    private String currentNumber(int degrees) {
         String text = "";
-        if (degrees >=(FACTOR * 1)&& degrees < (FACTOR * 3)){
+        if (degrees >= (FACTOR * 1) && degrees < (FACTOR * 3)) {
             text = "32 Red";
         }
-        if (degrees >=(FACTOR * 3)&& degrees < (FACTOR * 5)){
+        if (degrees >= (FACTOR * 3) && degrees < (FACTOR * 5)) {
             text = "15 Black";
         }
-        if (degrees >=(FACTOR * 5)&& degrees < (FACTOR * 7)){
+        if (degrees >= (FACTOR * 5) && degrees < (FACTOR * 7)) {
             text = "19 Red";
         }
-        if (degrees >=(FACTOR * 7)&& degrees < (FACTOR * 9)){
+        if (degrees >= (FACTOR * 7) && degrees < (FACTOR * 9)) {
             text = "4 Black";
         }
-        if (degrees >=(FACTOR * 9)&& degrees < (FACTOR * 11)){
+        if (degrees >= (FACTOR * 9) && degrees < (FACTOR * 11)) {
             text = "21 Red";
         }
-        if (degrees >=(FACTOR * 11)&& degrees < (FACTOR * 13)){
+        if (degrees >= (FACTOR * 11) && degrees < (FACTOR * 13)) {
             text = "2 Black";
         }
-        if (degrees >=(FACTOR * 13)&& degrees < (FACTOR * 15)){
+        if (degrees >= (FACTOR * 13) && degrees < (FACTOR * 15)) {
             text = "25 Red";
         }
-        if (degrees >=(FACTOR * 15)&& degrees < (FACTOR * 17)){
+        if (degrees >= (FACTOR * 15) && degrees < (FACTOR * 17)) {
             text = "17 Black";
         }
-        if (degrees >=(FACTOR * 17)&& degrees < (FACTOR * 19)){
+        if (degrees >= (FACTOR * 17) && degrees < (FACTOR * 19)) {
             text = "34 Red";
         }
-        if (degrees >=(FACTOR * 19)&& degrees < (FACTOR * 21)){
+        if (degrees >= (FACTOR * 19) && degrees < (FACTOR * 21)) {
             text = "6 Black";
         }
-        if (degrees >=(FACTOR * 21)&& degrees < (FACTOR * 23)){
+        if (degrees >= (FACTOR * 21) && degrees < (FACTOR * 23)) {
             text = "27 Red";
         }
-        if (degrees >=(FACTOR * 23)&& degrees < (FACTOR * 25)){
+        if (degrees >= (FACTOR * 23) && degrees < (FACTOR * 25)) {
             text = "13 Black";
         }
-        if (degrees >=(FACTOR * 25)&& degrees < (FACTOR * 27)){
+        if (degrees >= (FACTOR * 25) && degrees < (FACTOR * 27)) {
             text = "36 Red";
         }
-        if (degrees >=(FACTOR * 27)&& degrees < (FACTOR * 29)){
+        if (degrees >= (FACTOR * 27) && degrees < (FACTOR * 29)) {
             text = "11 Black";
         }
-        if (degrees >=(FACTOR * 29)&& degrees < (FACTOR * 31)){
+        if (degrees >= (FACTOR * 29) && degrees < (FACTOR * 31)) {
             text = "30 Red";
         }
-        if (degrees >=(FACTOR * 31)&& degrees < (FACTOR * 33)){
+        if (degrees >= (FACTOR * 31) && degrees < (FACTOR * 33)) {
             text = "8 Black";
         }
-        if (degrees >=(FACTOR * 33)&& degrees < (FACTOR * 35)){
+        if (degrees >= (FACTOR * 33) && degrees < (FACTOR * 35)) {
             text = "23 Red";
         }
-        if (degrees >=(FACTOR * 35)&& degrees < (FACTOR * 37)){
+        if (degrees >= (FACTOR * 35) && degrees < (FACTOR * 37)) {
             text = "10 Black";
         }
-        if (degrees >=(FACTOR * 37)&& degrees < (FACTOR * 39)){
+        if (degrees >= (FACTOR * 37) && degrees < (FACTOR * 39)) {
             text = "5 Red";
         }
-        if (degrees >=(FACTOR * 39)&& degrees < (FACTOR * 41)){
+        if (degrees >= (FACTOR * 39) && degrees < (FACTOR * 41)) {
             text = "24 Black";
         }
-        if (degrees >=(FACTOR * 41)&& degrees < (FACTOR * 43)){
+        if (degrees >= (FACTOR * 41) && degrees < (FACTOR * 43)) {
             text = "16 Red";
         }
-        if (degrees >=(FACTOR * 43)&& degrees < (FACTOR * 45)){
+        if (degrees >= (FACTOR * 43) && degrees < (FACTOR * 45)) {
             text = "33 Black";
         }
-        if (degrees >=(FACTOR * 45)&& degrees < (FACTOR * 47)){
+        if (degrees >= (FACTOR * 45) && degrees < (FACTOR * 47)) {
             text = "1 Red";
         }
-        if (degrees >=(FACTOR * 47)&& degrees < (FACTOR * 49)){
+        if (degrees >= (FACTOR * 47) && degrees < (FACTOR * 49)) {
             text = "20 Black";
         }
-        if (degrees >=(FACTOR * 49)&& degrees < (FACTOR * 51)){
+        if (degrees >= (FACTOR * 49) && degrees < (FACTOR * 51)) {
             text = "14 Red";
         }
-        if (degrees >=(FACTOR * 51)&& degrees < (FACTOR * 53)){
+        if (degrees >= (FACTOR * 51) && degrees < (FACTOR * 53)) {
             text = "31 Black";
         }
-        if (degrees >=(FACTOR * 53)&& degrees < (FACTOR * 55)){
+        if (degrees >= (FACTOR * 53) && degrees < (FACTOR * 55)) {
             text = "9 Red";
         }
-        if (degrees >=(FACTOR * 55)&& degrees < (FACTOR * 57)){
+        if (degrees >= (FACTOR * 55) && degrees < (FACTOR * 57)) {
             text = "22 Black";
         }
-        if (degrees >=(FACTOR * 57)&& degrees < (FACTOR * 59)){
+        if (degrees >= (FACTOR * 57) && degrees < (FACTOR * 59)) {
             text = "18 Red";
         }
-        if (degrees >=(FACTOR * 59)&& degrees < (FACTOR * 61)){
+        if (degrees >= (FACTOR * 59) && degrees < (FACTOR * 61)) {
             text = "29 Black";
         }
-        if (degrees >=(FACTOR * 61)&& degrees < (FACTOR * 63)){
+        if (degrees >= (FACTOR * 61) && degrees < (FACTOR * 63)) {
             text = "7 Red";
         }
-        if (degrees >=(FACTOR * 63)&& degrees < (FACTOR * 65)){
+        if (degrees >= (FACTOR * 63) && degrees < (FACTOR * 65)) {
             text = "28 Black";
         }
-        if (degrees >=(FACTOR * 65)&& degrees < (FACTOR * 67)){
+        if (degrees >= (FACTOR * 65) && degrees < (FACTOR * 67)) {
             text = "12 Red";
         }
-        if (degrees >=(FACTOR * 67)&& degrees < (FACTOR * 69)){
+        if (degrees >= (FACTOR * 67) && degrees < (FACTOR * 69)) {
             text = "35 Black";
         }
-        if (degrees >=(FACTOR * 69)&& degrees < (FACTOR * 71)){
+        if (degrees >= (FACTOR * 69) && degrees < (FACTOR * 71)) {
             text = "3 Red";
         }
-        if (degrees >=(FACTOR * 71)&& degrees < (FACTOR * 73)){
+        if (degrees >= (FACTOR * 71) && degrees < (FACTOR * 73)) {
             text = "26 Black";
         }
-        if ((degrees >= (FACTOR * 73) && degrees<360) || (degrees>=0 && degrees<(FACTOR * 1))){
+        if ((degrees >= (FACTOR * 73) && degrees < 360) || (degrees >= 0 && degrees < (FACTOR * 1))) {
             text = "0";
         }
 
         return text;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Casino.this, Landing.class);
+        startActivity(intent);
+        finish();
     }
 }

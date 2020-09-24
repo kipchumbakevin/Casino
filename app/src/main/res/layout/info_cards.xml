@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorDont"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Winning card"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/spade" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Match three to win 3 times the amount you deposited"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/spade" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/spade" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/spade" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_done" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Match two to win 2 times the amount you deposited"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/spade" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/spade" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_done" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <Button
+        android:id="@+id/done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:text="OK"/>
+</LinearLayout>

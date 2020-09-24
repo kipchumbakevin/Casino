@@ -1,5 +1,6 @@
 package com.chezacasino.casino.networking;
 
+import com.chezacasino.casino.models.GetBonusModel;
 import com.chezacasino.casino.models.MessageModel;
 import com.chezacasino.casino.models.TrialsModel;
 
@@ -32,7 +33,7 @@ public interface JsonPlaceHolderInterface {
     );
     @FormUrlEncoded
     @POST("api/getbonus")
-    Call<TrialsModel> getB(
+    Call<GetBonusModel> getB(
             @Field("phone") String phone
     );
     @FormUrlEncoded

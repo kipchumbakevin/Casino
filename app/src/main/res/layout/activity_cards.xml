@@ -84,6 +84,19 @@
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btt"/>
+        <Button
+            android:id="@+id/claimmoney"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="Redeem your winnings"
+            android:textSize="10sp"
+            android:paddingStart="2dp"
+            android:visibility="gone"
+            android:paddingEnd="2dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btt"/>
     </RelativeLayout>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -128,12 +141,13 @@
                 android:layout_marginTop="2dp"
                 android:text="deposit"
                 android:textSize="10sp" />
+           
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Outcome(Match all three to win)"
+        android:text="Outcome(Match two or three to win)"
         android:textSize="12sp"
         android:textColor="@color/colorWhite"/>
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -238,13 +252,25 @@
             android:layout_height="100dp"
             android:src="@drawable/back"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
-    <Button
-        android:id="@+id/new_trial"
-        android:layout_marginTop="20dp"
-        android:text="new trial"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/btt"
-        android:layout_width="200dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click here before you start"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center_vertical"/>
+        <Button
+            android:id="@+id/new_trial"
+            android:layout_marginStart="5dp"
+            android:text="new trial"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

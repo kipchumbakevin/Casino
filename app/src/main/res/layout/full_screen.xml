@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:id="@+id/rLayout"
-    android:background="@color/colorG"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/garden"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="JJJJJJJJJJ"
-        android:textSize="25sp"/>
+        android:layout_centerInParent="true"
+        android:src="@drawable/kkkick"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/spade"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="150dp"
+        android:src="@drawable/greencandy"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="231dp"
+        android:src="@drawable/purplecandy"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="225dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/orangecandy"/>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="325dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/redcandy"/>
 
-</LinearLayout>
+</RelativeLayout>
