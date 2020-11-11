@@ -91,7 +91,7 @@ public class Landing extends AppCompatActivity {
                 if (!ccp.isValidFullNumber()) {
                     Toast.makeText(Landing.this, "Enter a valid phone number", Toast.LENGTH_SHORT).show();
                 } else {
-                    String phone = ccp.getFullNumberWithPlus();
+                    String phone = ccp.getFullNumber();
                     sharedPreferencesConfig.saveAuthenticationInformation(phone);
                     enterPSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     if (startintent == 1) {

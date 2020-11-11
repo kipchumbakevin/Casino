@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
@@ -83,7 +84,6 @@ public class Casino extends AppCompatActivity {
         } else {
             populatetrials();
         }
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +133,7 @@ public class Casino extends AppCompatActivity {
                     int ii = Integer.parseInt(deposit_amount.getText().toString());
                     String phone = sharedPreferencesConfig.readClientsPhone();
                     String am = deposit_amount.getText().toString();
-                    if (ii >= 20) {
+                    if (ii >= 1) {
                         pr.setVisibility(View.VISIBLE);
                         Call<MessageModel> call = RetrofitClient.getInstance(Casino.this)
                                 .getApiConnector()
@@ -284,7 +284,7 @@ public class Casino extends AppCompatActivity {
             public void onResponse(Call<TrialsModel> call, Response<TrialsModel> response) {
                 pr.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    if (response.body() != null && response.body().getNum() >= 0) {
+                    if (response.body() != null && response.body().getNum() > 0) {
                         chances.setText(response.body().getNum() + "");
                         start.setEnabled(true);
                         linear_deposit.setVisibility(View.GONE);

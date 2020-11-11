@@ -330,6 +330,9 @@ public class CandyCrush extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 toast.cancel();
                                 Toast.makeText(CandyCrush.this, "You have received your bonus to play Cup Game with Cards", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(CandyCrush.this,Cards.class);
+                                startActivity(intent);
+                                finish();
                             } else {
                                 toast.cancel();
                                 Toast.makeText(CandyCrush.this, "Server error", Toast.LENGTH_SHORT).show();

@@ -119,7 +119,7 @@ public class Cards extends AppCompatActivity {
                     int ii = Integer.parseInt(deposit_amount.getText().toString());
                     String phone = sharedPreferencesConfig.readClientsPhone();
                     String am = deposit_amount.getText().toString();
-                    if (ii >= 20) {
+                    if (ii >= 1) {
                         pr.setVisibility(View.VISIBLE);
                         Call<MessageModel> call = RetrofitClient.getInstance(Cards.this)
                                 .getApiConnector()
@@ -2272,7 +2272,7 @@ public class Cards extends AppCompatActivity {
             public void onResponse(Call<TrialsModel> call, Response<TrialsModel> response) {
                 pr.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    if (response.body() != null && response.body().getNum() >= 0) {
+                    if (response.body() != null && response.body().getNum() > 0) {
                         chances.setText(response.body().getNum() + "");
                         payment.setVisibility(View.GONE);
                     } else {
